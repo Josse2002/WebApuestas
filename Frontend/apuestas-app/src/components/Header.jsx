@@ -1,7 +1,7 @@
 import { FaAngleDown } from "react-icons/fa";
 export default function Header() {
     return (
-        <header className="flex flex-row justify-between items-center mx-10 my-5">
+        <header className="flex flex-row justify-between items-center my-5">
             {/* Logo */}
             <div>
                 <h1 className="text-2xl">BetApp</h1>
