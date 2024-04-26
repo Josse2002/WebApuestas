@@ -1,6 +1,6 @@
 import Input from "./Input";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 export function LoginComponent() {
 
     // Instance of the Router object
