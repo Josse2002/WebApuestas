@@ -1,7 +1,8 @@
+import { MatchTable } from "@/components/MatchTable";
 export default function Page() {
     return (
         <div>
-            <h1>Hola Mundo!</h1>
+            <MatchTable />
         </div>
     );
 };

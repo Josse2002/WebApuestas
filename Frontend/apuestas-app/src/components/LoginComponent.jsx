@@ -1,6 +1,20 @@
 import Input from "./Input";
 import Link from "next/link";
+import { useRouter } from "next/router";
 export function LoginComponent() {
+
+    // Instance of the Router object
+    const router = useRouter();
+
+
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        //TODO: Here we should add the logic to validate the user and password
+        router.push("/dashboard");
+    }
+
     return (
         <div className="flex flex-col justify-center items-center">
             <h1 className="text-2xl">BetApp login</h1>
@@ -12,7 +26,7 @@ export function LoginComponent() {
                         Crea una
                     </Link>
                 </p>
-                <button className="bg-gray-900 px-5 py-2 rounded-lg " type="submit">Iniciar sesión</button>
+                <Link className="bg-gray-900 px-5 py-2 rounded-lg " type="submit">Iniciar sesión</Link>
             </form>
         </div>
     );
