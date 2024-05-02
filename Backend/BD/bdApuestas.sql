@@ -29,13 +29,13 @@ create table EquipoVisitante(
 	idEquipoVisitante int primary key auto_increment not null,
     nombreEquipoVisitante varchar(50) not null,
     representanteEquipoVisitante varchar(120) not null,
-    fechaFundacionVisitante date not null
+    fechaFundacionVisitante date 
 );	
 create table EquipoLocal(
-	idEquipoLoca int primary key auto_increment not null,
-    nombreEquipoLoca varchar(50),
+	idEquipoLocal int primary key auto_increment not null,
+    nombreEquipoLocal varchar(50),
     representanteEquipoLocal varchar(120) not null,
-    fechaFundacionLocal date not null
+    fechaFundacionLocal date 
 );
 
 
@@ -45,9 +45,9 @@ create table Partido(
     marcadorLocal int not null,
     marcadorVisitante int not null,
     idEquipoVisitante int not null,
-    idEquipoLoca int not null,
+    idEquipoLocal int not null,
     foreign key (idEquipoVisitante) references EquipoVisitante(idEquipoVisitante),
-    foreign key (idEquipoLoca) references EquipoLocal(idEquipoLoca)
+    foreign key (idEquipoLocal) references EquipoLocal(idEquipoLocal)
 );
 
 
@@ -55,19 +55,11 @@ create table Apuestas(
 	idApuestas int primary key auto_increment not null,
     idUsuario int not null,
     CantidadApostada decimal (10,3) not null,
-    fechaApuesta Date not null,
+    fechaApuesta Date,
     idEstadoApuesta int not null,
     idPartido int not null,
     foreign key (idUsuario) references Usuarios(idUsuario),
     foreign key (idEstadoApuesta) references EstadoApuesta(idEstadoApuesta),
     foreign key (idPartido) references Partido(idPartido)
 );
-
-
-
-
-
-
-
-
 
