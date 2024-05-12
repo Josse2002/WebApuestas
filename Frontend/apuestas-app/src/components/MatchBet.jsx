@@ -13,6 +13,10 @@ export function MatchBet() {
         setShowPopUp(!showPopUp);
     }
 
+    const handleClosePopUp = () => {
+        setShowPopUp(false);
+    }
+
     return (
         <div>
             <article className="bg-gray-900 rounded-xl px-10 py-4 flex flex-col justify-around items-center">
@@ -28,8 +32,8 @@ export function MatchBet() {
             </article>
 
             {showPopUp &&
-                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <BetPopUp handleShowPopUp={handleShowPopUp} team1={"Barcelona"} team2={"Real Madrid"} />
+                <div className="fixed w-[80%] md:w-[50%] lg:w-[30%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <BetPopUp onClose={handleClosePopUp} handleShowPopUp={handleShowPopUp} team1={"Barcelona"} team2={"Real Madrid"} />
                 </div>
             }
         </div>
