@@ -25,5 +25,87 @@ app.get("/", (req, res) => {
   });
 });
 
+app.post("/", (request, response) => {
+  const {idUsuario,CantidadApostada,idEstadoApuesta,idPartido} = request.body; 
+
+  
+  const sql = "INSERT INTO apuestas SET ?";
+
+  bd.query(sql,{idUsuario,CantidadApostada,idEstadoApuesta,idPartido},
+    (error, resultado) => {
+      if (error) {
+        response.json({
+          status: false,
+          mensaje: error,
+          alerta: "Error al insertar",
+        });
+      }
+      if (resultado) {
+        response.json({
+          status: true,
+          mensaje: "Agregado correctamente",
+          data: resultado
+        });
+      }
+    }
+  );
+});
+
+app.delete('/:id', (req, res) =>{
+    const id =  req.params.id;
+    const sql = "DELETE FROM apuestas WHERE idApuestas = ?"
+
+    bd.query(sql, [id], (error, result) =>{
+        if(error){
+            res.json({
+                status: false,
+                mensaje: error,
+                alerta:"No se pudo eliminar"
+            })
+        }
+
+        if(result){
+            res.json({
+                status:true,
+                mensaje:"Eliminado completamente",
+                data: result
+            })
+        }
+
+    })
+
+})
+
+
+//editar
+app.put('/:id', (req,res) => {
+    const id = req.params.id;
+    const {idUsuario,CantidadApostada,fechaApuesta,idEstadoApuesta,idPartido} = req.body;
+
+    const sql = `UPDATE apuestas SET idUsuario = ?, CantidadApostada = ?, idEstadoApuesta = ?, idPartido = ?  where idApuestas = ${id} `
+    
+    bd.query(sql, [idUsuario,CantidadApostada,idEstadoApuesta,idPartido ], 
+        (error, result) =>{
+            if(error){
+                res.json({
+                    status: false,
+                    mensaje: error,
+                    alerta: "No se modificaron los datos"
+                })
+            }
+            if(result){
+                res.json({
+                    status: true,
+                    mensaje: "Datos modificados",
+                    data: result
+                })
+            }
+
+        })
+})
+
+
+
+
 
 module.exports = app;
