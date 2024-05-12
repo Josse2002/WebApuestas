@@ -17,7 +17,7 @@ export default function Header() {
                 <button onClick={() => setIsOpen(!isOpen)} className="absolute top-0 right-0 p-5 text-2xl sm:hidden">
                     <FaTimes />
                 </button>
-                <div className={`flex flex-col items-center gap-5 sm:flex-row  ${isOpen ? "mt-10 text-xl" : ""} `}>
+                <div className={`flex flex-col items-center gap-5 sm:flex-row  ${isOpen == true ? "mt-10 text-xl" : ""} `}>
                     <a href="#">Mis apuestas</a>
                     <a href="#">Partidos</a>
 

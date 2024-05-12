@@ -29,6 +29,10 @@ export function LoginComponent() {
                 </p>
                 <button className="bg-gray-900 px-5 py-2 rounded-lg " type="submit">Iniciar sesión</button>
             </form>
+
+            <div className="absolute z-0 opacity-15 bottom-0">
+                <img src="/image/background.png" alt="" />
+            </div>
         </div>
     );
 };
