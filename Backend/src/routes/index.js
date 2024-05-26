@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require('cors');
 
 app.get('/',(re,res)=>{
   res.send("Hola mundo ")
@@ -13,6 +14,7 @@ app.get("/", (req, res) => {
 
   })
 
+.use(cors()) 
 .use("/roles", require("./roles/index.js"))
 .use("/users", require("./usuarios/index.js"))
 .use("/estado", require("./estados/index.js"))
