@@ -3,7 +3,7 @@ const app = express();
 const bd = require("../../database/config");
 
 app.get("/", (req, res) => {
-  const sql = "SELECT * FROM apuestas   ";
+  const sql = "SELECT * FROM apuestas";
 
   bd.query(sql, (error, resultado) => {
     if (error) {
@@ -26,12 +26,12 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (request, response) => {
-  const {idUsuario,CantidadApostada,idEstadoApuesta,idPartido} = request.body; 
+  const {idUsuario,CantidadApostada,idEstadoApuesta,idPartido, prediccionEquipoVisitante, prediccionEquipoLocal} = request.body; 
 
   
   const sql = "INSERT INTO apuestas SET ?";
 
-  bd.query(sql,{idUsuario,CantidadApostada,idEstadoApuesta,idPartido},
+  bd.query(sql,{idUsuario,CantidadApostada,idEstadoApuesta,idPartido, prediccionEquipoVisitante, prediccionEquipoLocal},
     (error, resultado) => {
       if (error) {
         response.json({

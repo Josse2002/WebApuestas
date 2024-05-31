@@ -1,6 +1,49 @@
 const express = require("express");
+const session = require("express-session");
 const app = express();
 const bd = require("../../database/config");
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+  secret: 'e29df4c1d8db2b4bb394c40fec1c72b407865edb9e4a0de93efcf19a514ec1de7bd1aec959d8a9e4ece7d999cb3c105d9d410449d5e2e0882cbe596171d4ad19',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
+
+app.post("/login", (req, res) => {
+  const { userName, clave } = req.body;
+
+  const sql = "SELECT * FROM usuarios WHERE userName = ? AND clave = ?";
+  bd.query(sql, [userName, clave], (error, resultado) => {
+    if (error) {
+      console.log(error, "Error al buscar el usuario");
+      return res.status(500).json({
+        status: false,
+        mensaje: "Error interno del servidor",
+      });
+    }
+
+    if (resultado.length > 0) {
+      // Las credenciales son correctas
+      req.session.user = resultado[0];
+      res.json({
+        status: true,
+        mensaje: "Inicio de sesión exitoso",
+        user: resultado[0]
+      });
+    } else {
+      // Las credenciales son incorrectas
+      res.status(401).json({
+        status: false,
+        mensaje: "Credenciales inválidas",
+      });
+    }
+  });
+});
+
 
 app.get("/", (req, res) => {
   const sql = "SELECT * FROM usuarios";
@@ -103,6 +146,34 @@ app.put('/:id', (req,res) => {
 
         })
 })
+
+app.get('/usuario/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
+
+    bd.query(sql, [id], (error, result) => {
+        if (error) {
+            res.json({
+                status: false,
+                mensaje: error,
+                alerta: "No se pudo obtener el usuario"
+            });
+        }
+
+        if (result.length > 0) {
+            res.json({
+                status: true,
+                mensaje: "Usuario encontrado",
+                data: result[0]
+            });
+        } else {
+            res.json({
+                status: false,
+                mensaje: "Usuario no encontrado"
+            });
+        }
+    });
+});
 
 
 module.exports = app;
