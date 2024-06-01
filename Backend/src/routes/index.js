@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require('cors');
+const pool = require('../database/config.js'); 
 
 app.get('/',(re,res)=>{
   res.send("Hola mundo ")

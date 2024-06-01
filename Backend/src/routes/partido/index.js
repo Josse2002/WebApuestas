@@ -3,7 +3,7 @@ const app = express();
 const bd = require("../../database/config");
 
 app.get("/", (req, res) => {
-  const sql = "SELECT * FROM partido";
+  const sql = "SELECT * FROM Partido";
 
   bd.query(sql, (error, resultado) => {
     if (error) {
@@ -30,7 +30,7 @@ app.post("/", (request, response) => {
   const {fechaPartido, marcadorLocal, marcadorVisitante, idEquipoVisitante, idEquipoLocal } = request.body; 
 
   
-  const sql = "INSERT INTO partido SET ?";
+  const sql = "INSERT INTO Partido SET ?";
 
   bd.query(sql,{fechaPartido, marcadorLocal, marcadorVisitante, idEquipoVisitante, idEquipoLocal},
     (error, resultado) => {
@@ -56,7 +56,7 @@ app.delete("/:id", (req, res) => {
   const id = req.params.id;
 
   // Verificar si el partido está en la tabla finalizado
-  const checkFinalizadoSql = "SELECT COUNT(*) as count FROM finalizacion WHERE idPartido = ?";
+  const checkFinalizadoSql = "SELECT COUNT(*) as count FROM Finalizacion WHERE idPartido = ?";
   bd.query(checkFinalizadoSql, [id], (error, result) => {
     if (error) {
       return res.json({
@@ -75,7 +75,7 @@ app.delete("/:id", (req, res) => {
     }
 
     // Eliminar apuestas asociadas
-    const deleteApuestasSql = "DELETE FROM apuestas WHERE idPartido = ?";
+    const deleteApuestasSql = "DELETE FROM Apuestas WHERE idPartido = ?";
     bd.query(deleteApuestasSql, [id], (error, result) => {
       if (error) {
         return res.json({
@@ -86,7 +86,7 @@ app.delete("/:id", (req, res) => {
       }
 
       // Eliminar el partido
-      const deletePartidoSql = "DELETE FROM partido WHERE idPartido = ?";
+      const deletePartidoSql = "DELETE FROM Partido WHERE idPartido = ?";
       bd.query(deletePartidoSql, [id], (error, result) => {
         if (error) {
           return res.json({
@@ -115,7 +115,7 @@ app.put('/:id', (req,res) => {
     const id = req.params.id;
     const {fechaPartido, marcadorLocal, marcadorVisitante, idEquipoVisitante, idEquipoLocal} = req.body;
 
-    const sql = `UPDATE partido SET fechaPartido = ?, marcadorLocal = ?, marcadorVisitante = ?, idEquipoVisitante = ?, idEquipoLocal = ?  where idPartido = ${id} `
+    const sql = `UPDATE Partido SET fechaPartido = ?, marcadorLocal = ?, marcadorVisitante = ?, idEquipoVisitante = ?, idEquipoLocal = ?  where idPartido = ${id} `
     
     bd.query(sql, [fechaPartido, marcadorLocal, marcadorVisitante, idEquipoVisitante, idEquipoLocal], 
         (error, result) =>{
@@ -150,11 +150,11 @@ app.get("/partido/:id", (req, res) => {
       ev.representanteEquipoVisitante,
       ev.fechaFundacionVisitante
     FROM 
-      partido p
+      Partido p
     LEFT JOIN 
-      equipolocal el ON p.idEquipoLocal = el.idEquipoLocal
+      Equipolocal el ON p.idEquipoLocal = el.idEquipoLocal
     LEFT JOIN 
-      equipovisitante ev ON p.idEquipoVisitante = ev.idEquipoVisitante
+      Equipovisitante ev ON p.idEquipoVisitante = ev.idEquipoVisitante
     WHERE 
       p.idPartido = ?`;
 

@@ -5,7 +5,7 @@ const bd = require("../../database/config");
 //consultando roles
 app.get("/", (req, res) => {
   //agregamos la consulta
-  const sql = "SELECT * FROM roles";
+  const sql = "SELECT * FROM Roles";
   //ponemos en ejecucion la consulta
   bd.query(sql, (error, resultado) => {
     if (error) {
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 app.post("/", (request, response) => {
   const { tipoRol } = request.body; //hacemos uso del request body para escribir en el  cuerpo de la peticion
   //creamos una variable que contendra la consulta a realizar
-  const sql = "INSERT INTO roles SET ?";
+  const sql = "INSERT INTO Roles SET ?";
 
   bd.query(sql,{tipoRol}, //usamos en { }  para pasar las variables del request.body
     (error, resultado) => {
@@ -59,7 +59,7 @@ app.post("/", (request, response) => {
 
 app.delete('/:id', (req, res) =>{
     const id =  req.params.id;
-    const sql = "DELETE FROM roles WHERE idRol = ?"
+    const sql = "DELETE FROM Roles WHERE idRol = ?"
 
     bd.query(sql, [id], (error, result) =>{
         if(error){
@@ -88,7 +88,7 @@ app.put('/:id', (req,res) => {
     const id = req.params.id;
     const {tipoRol} = req.body;
 
-    const sql = `UPDATE roles SET tipoRol = ?  where idRol = ${id} `
+    const sql = `UPDATE Roles SET tipoRol = ?  where idRol = ${id} `
     
     bd.query(sql, [tipoRol], 
         (error, result) =>{

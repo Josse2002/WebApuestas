@@ -16,7 +16,7 @@ app.use(session({
 app.post("/login", (req, res) => {
   const { userName, clave } = req.body;
 
-  const sql = "SELECT * FROM usuarios WHERE userName = ? AND clave = ?";
+  const sql = "SELECT * FROM Usuarios WHERE userName = ? AND clave = ?";
   bd.query(sql, [userName, clave], (error, resultado) => {
     if (error) {
       console.log(error, "Error al buscar el usuario");
@@ -46,7 +46,7 @@ app.post("/login", (req, res) => {
 
 
 app.get("/", (req, res) => {
-  const sql = "SELECT * FROM usuarios";
+  const sql = "SELECT * FROM Usuarios";
 
   bd.query(sql, (error, resultado) => {
     if (error) {
@@ -72,7 +72,7 @@ app.post("/", (request, response) => {
   const { nombreUsuario, apellidoUsuario, dui, email, userName, clave, idRol } = request.body; 
 
   
-  const sql = "INSERT INTO usuarios SET ?";
+  const sql = "INSERT INTO Usuarios SET ?";
 
   bd.query(sql,{nombreUsuario, apellidoUsuario, dui, email, userName, clave , idRol},
     (error, resultado) => {
@@ -96,7 +96,7 @@ app.post("/", (request, response) => {
 
 app.delete('/:id', (req, res) =>{
     const id =  req.params.id;
-    const sql = "DELETE FROM usuarios WHERE idUsuario = ?"
+    const sql = "DELETE FROM Usuarios WHERE idUsuario = ?"
 
     bd.query(sql, [id], (error, result) =>{
         if(error){
@@ -125,7 +125,7 @@ app.put('/:id', (req,res) => {
     const id = req.params.id;
     const {nombreUsuario, apellidoUsuario, dui, email, userName, clave, idRol} = req.body;
 
-    const sql = `UPDATE usuarios SET nombreUsuario = ?, apellidoUsuario = ?, dui = ?, email = ?, userName = ?, clave = MD5(?), idRol = ? where idUsuario = ${id} `
+    const sql = `UPDATE Usuarios SET nombreUsuario = ?, apellidoUsuario = ?, dui = ?, email = ?, userName = ?, clave = MD5(?), idRol = ? where idUsuario = ${id} `
     
     bd.query(sql, [nombreUsuario, apellidoUsuario, dui, email, userName, clave, idRol], 
         (error, result) =>{
@@ -149,7 +149,7 @@ app.put('/:id', (req,res) => {
 
 app.get('/usuario/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
+    const sql = "SELECT * FROM Usuarios WHERE idUsuario = ?";
 
     bd.query(sql, [id], (error, result) => {
         if (error) {

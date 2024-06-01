@@ -6,7 +6,7 @@ app.use(express.json()); // Asegúrate de poder manejar JSON en el cuerpo de las
 
 // Mostrar todos los registros de la tabla finalizacion
 app.get("/", (req, res) => {
-  const sql = "SELECT * FROM finalizacion";
+  const sql = "SELECT * FROM Finalizacion";
 
   bd.query(sql, (error, resultado) => {
     if (error) {
@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 app.post("/", (request, response) => {
   const { idPartido, fechaFinalizacion, marcadorVisitanteFinal, marcadorLocalFinal } = request.body;
 
-  const sql = "INSERT INTO finalizacion SET ?";
+  const sql = "INSERT INTO Finalizacion SET ?";
 
   bd.query(
     sql,
@@ -59,7 +59,7 @@ app.post("/", (request, response) => {
 // Eliminar un registro de la tabla finalizacion
 app.delete("/:id", (req, res) => {
   const id = req.params.id;
-  const sql = "DELETE FROM finalizacion WHERE idFinalizacion = ?";
+  const sql = "DELETE FROM Finalizacion WHERE idFinalizacion = ?";
 
   bd.query(sql, [id], (error, result) => {
     if (error) {
@@ -85,7 +85,7 @@ app.put("/:id", (req, res) => {
   const id = req.params.id;
   const { idPartido, fechaFinalizacion, marcadorVisitanteFinal, marcadorLocalFinal } = req.body;
 
-  const sql = `UPDATE finalizacion SET idPartido = ?, fechaFinalizacion = ?, marcadorVisitanteFinal = ?, marcadorLocalFinal = ? WHERE idFinalizacion = ${id}`;
+  const sql = `UPDATE Finalizacion SET idPartido = ?, fechaFinalizacion = ?, marcadorVisitanteFinal = ?, marcadorLocalFinal = ? WHERE idFinalizacion = ${id}`;
 
   bd.query(
     sql,

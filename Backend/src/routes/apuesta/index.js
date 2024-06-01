@@ -3,7 +3,7 @@ const app = express();
 const bd = require("../../database/config");
 
 app.get("/", (req, res) => {
-  const sql = "SELECT * FROM apuestas";
+  const sql = "SELECT * FROM Apuestas";
 
   bd.query(sql, (error, resultado) => {
     if (error) {
@@ -29,7 +29,7 @@ app.post("/", (request, response) => {
   const {idUsuario,CantidadApostada,idEstadoApuesta,idPartido, prediccionEquipoVisitante, prediccionEquipoLocal} = request.body; 
 
   
-  const sql = "INSERT INTO apuestas SET ?";
+  const sql = "INSERT INTO Apuestas SET ?";
 
   bd.query(sql,{idUsuario,CantidadApostada,idEstadoApuesta,idPartido, prediccionEquipoVisitante, prediccionEquipoLocal},
     (error, resultado) => {
@@ -53,7 +53,7 @@ app.post("/", (request, response) => {
 
 app.delete('/:id', (req, res) =>{
     const id =  req.params.id;
-    const sql = "DELETE FROM apuestas WHERE idApuestas = ?"
+    const sql = "DELETE FROM Apuestas WHERE idApuestas = ?"
 
     bd.query(sql, [id], (error, result) =>{
         if(error){
@@ -82,7 +82,7 @@ app.put('/:id', (req,res) => {
     const id = req.params.id;
     const {idUsuario,CantidadApostada,fechaApuesta,idEstadoApuesta,idPartido} = req.body;
 
-    const sql = `UPDATE apuestas SET idUsuario = ?, CantidadApostada = ?, idEstadoApuesta = ?, idPartido = ?  where idApuestas = ${id} `
+    const sql = `UPDATE Apuestas SET idUsuario = ?, CantidadApostada = ?, idEstadoApuesta = ?, idPartido = ?  where idApuestas = ${id} `
     
     bd.query(sql, [idUsuario,CantidadApostada,idEstadoApuesta,idPartido ], 
         (error, result) =>{
@@ -122,7 +122,7 @@ app.get('/usuario/:idUsuario', (req, res) => {
     ELSE NULL 
   END AS marcadorLocalFinal
 FROM 
-  apuestas a
+  Apuestas a
 LEFT JOIN 
   finalizacion f ON a.idPartido = f.idPartido
 WHERE 
