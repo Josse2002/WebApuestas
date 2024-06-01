@@ -1,33 +1,29 @@
-'use client'
+'use client';
 
 import { MatchBet } from "./MatchBet";
 import { useEffect, useState } from "react";
 import { getAllPartidos } from "@/services/partidos.service";
 
 export function MatchTable() {
-    const [partidos, setPartidos] = useState();
+    const [partido, setPartido] = useState(null);
 
     useEffect(() => {
-        async function fetchPartidos() {
+        async function fetchPartido() {
             const partidos = await getAllPartidos();
-            setPartidos(partidos.data);
+            if (partidos.data.length > 0) {
+                setPartido(partidos.data[0]);
+            }
         }
 
-        fetchPartidos();
+        fetchPartido();
     }, []);
 
-
     return (
-        <div>
-            <h2 className="text-xl font-bold">Partidos proximos</h2>
-
-            <section className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-5">
-                {
-                    partidos ? partidos.map((partido) => (
-                        <MatchBet key={partido.id} partido={partido} />
-                    )) : <p>No hay partidos</p>
-                }
-            </section>
+        <div className="w-full">
+            <h2 className="text-xl font-bold text-white">Partidos próximos</h2>
+            <div className="mt-5">
+                {partido ? <MatchBet partido={partido} /> : <p>No hay partidos</p>}
+            </div>
         </div>
     );
 };

@@ -26,12 +26,12 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (request, response) => {
-  const { nombreEquipoVisitante, representanteEquipoVisitante } = request.body; 
+  const { nombreEquipoVisitante, representanteEquipoVisitante, fechaFundacionVisitante } = request.body; 
 
   
   const sql = "INSERT INTO EquipoVisitante SET ?";
 
-  bd.query(sql,{nombreEquipoVisitante, representanteEquipoVisitante},
+  bd.query(sql,{nombreEquipoVisitante, representanteEquipoVisitante, fechaFundacionVisitante},
     (error, resultado) => {
       if (error) {
         response.json({

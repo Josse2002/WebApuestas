@@ -52,30 +52,62 @@ app.post("/", (request, response) => {
   );
 });
 
-app.delete('/:id', (req, res) =>{
-    const id =  req.params.id;
-    const sql = "DELETE FROM partido WHERE idPartido = ?"
+app.delete("/:id", (req, res) => {
+  const id = req.params.id;
 
-    bd.query(sql, [id], (error, result) =>{
-        if(error){
-            res.json({
-                status: false,
-                mensaje: error,
-                alerta:"No se pudo eliminar"
-            })
+  // Verificar si el partido está en la tabla finalizado
+  const checkFinalizadoSql = "SELECT COUNT(*) as count FROM finalizacion WHERE idPartido = ?";
+  bd.query(checkFinalizadoSql, [id], (error, result) => {
+    if (error) {
+      return res.json({
+        status: false,
+        mensaje: error,
+        alerta: "Error al verificar si el partido está finalizado",
+      });
+    }
+
+    if (result[0].count > 0) {
+      return res.json({
+        status: false,
+        mensaje: "No se puede eliminar el partido porque está finalizado",
+        alerta: "Eliminación no permitida",
+      });
+    }
+
+    // Eliminar apuestas asociadas
+    const deleteApuestasSql = "DELETE FROM apuestas WHERE idPartido = ?";
+    bd.query(deleteApuestasSql, [id], (error, result) => {
+      if (error) {
+        return res.json({
+          status: false,
+          mensaje: error,
+          alerta: "Error al eliminar apuestas asociadas",
+        });
+      }
+
+      // Eliminar el partido
+      const deletePartidoSql = "DELETE FROM partido WHERE idPartido = ?";
+      bd.query(deletePartidoSql, [id], (error, result) => {
+        if (error) {
+          return res.json({
+            status: false,
+            mensaje: error,
+            alerta: "No se pudo eliminar el partido",
+          });
         }
 
-        if(result){
-            res.json({
-                status:true,
-                mensaje:"Eliminado completamente",
-                data: result
-            })
-        }
+        res.json({
+          status: true,
+          mensaje: "Partido y apuestas asociadas eliminados correctamente",
+          data: result,
+        });
+      });
+    });
+  });
+});
 
-    })
+module.exports = app;
 
-})
 
 
 //editar
@@ -105,5 +137,50 @@ app.put('/:id', (req,res) => {
         })
 })
 
+
+app.get("/partido/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = `
+    SELECT 
+      p.*, 
+      el.nombreEquipoLocal,
+      el.representanteEquipoLocal,
+      el.fechaFundacionLocal,
+      ev.nombreEquipoVisitante,
+      ev.representanteEquipoVisitante,
+      ev.fechaFundacionVisitante
+    FROM 
+      partido p
+    LEFT JOIN 
+      equipolocal el ON p.idEquipoLocal = el.idEquipoLocal
+    LEFT JOIN 
+      equipovisitante ev ON p.idEquipoVisitante = ev.idEquipoVisitante
+    WHERE 
+      p.idPartido = ?`;
+
+  bd.query(sql, [id], (error, resultado) => {
+    if (error) {
+      console.log(error, "Error al obtener los datos del partido");
+      res.json({
+        status: false,
+        mensaje: error,
+        alerta: "No se pudo obtener la información",
+      });
+    }
+
+    if (resultado.length > 0) {
+      res.json({
+        status: true,
+        mensaje: "Datos del partido obtenidos",
+        data: resultado[0]
+      });
+    } else {
+      res.status(404).json({
+        status: false,
+        mensaje: "No se encontró el partido",
+      });
+    }
+  });
+});
 
 module.exports = app;

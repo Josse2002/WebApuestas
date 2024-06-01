@@ -22,6 +22,7 @@ app.get("/", (req, res) => {
 .use("/local", require("./local/index.js"))
 .use("/partido", require("./partido/index.js"))
 .use("/apuesta", require("./apuesta/index.js"))
+.use("/finalizacion", require("./finalizacion/index.js"))
   
 //.use('/Persona', require('./Personas/index'))
 

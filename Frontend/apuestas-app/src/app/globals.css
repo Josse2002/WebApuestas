@@ -2,43 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #2d2d2d; /* color de fondo de la barra de desplazamiento */
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4b5563; /* color del pulgar de la barra de desplazamiento */
+  border-radius: 10px;
+  border: 3px solid #2d2d2d; /* opcional, para crear un margen alrededor del pulgar */
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6b7280; /* color del pulgar al pasar el mouse */
 }

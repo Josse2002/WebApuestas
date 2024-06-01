@@ -1,1 +1,1 @@
-export const CORE_API_URL = "http://127.0.0.1:8080/Apuestas";
+export const CORE_API_URL = "http://127.0.0.1:8002/Apuestas";

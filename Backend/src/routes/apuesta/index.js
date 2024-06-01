@@ -104,6 +104,54 @@ app.put('/:id', (req,res) => {
         })
 })
 
+app.get('/usuario/:idUsuario', (req, res) => {
+  const idUsuario = req.params.idUsuario;
+  const sql = `
+    SELECT 
+  a.*, 
+  CASE 
+    WHEN f.idPartido IS NOT NULL THEN f.idFinalizacion 
+    ELSE NULL 
+  END AS idFinalizacion,
+  CASE 
+    WHEN f.idPartido IS NOT NULL THEN f.marcadorVisitanteFinal 
+    ELSE NULL 
+  END AS marcadorVisitanteFinal,
+  CASE 
+    WHEN f.idPartido IS NOT NULL THEN f.marcadorLocalFinal 
+    ELSE NULL 
+  END AS marcadorLocalFinal
+FROM 
+  apuestas a
+LEFT JOIN 
+  finalizacion f ON a.idPartido = f.idPartido
+WHERE 
+  a.idUsuario = ?;`;
+
+  bd.query(sql, [idUsuario], (error, resultado) => {
+    if (error) {
+      console.log(error, "Error al obtener las apuestas del usuario");
+      return res.status(500).json({
+        status: false,
+        mensaje: "Error interno del servidor",
+      });
+    }
+
+    if (resultado.length > 0) {
+      res.json({
+        status: true,
+        mensaje: "Apuestas del usuario obtenidas",
+        data: resultado
+      });
+    } else {
+      res.status(404).json({
+        status: false,
+        mensaje: "No se encontraron apuestas para este usuario",
+      });
+    }
+  });
+});
+
 
 
 
