@@ -30,6 +30,7 @@ export default function Page() {
         try {
             const data = await getAllEquipoVisitante();
             setEquipos(data.data);
+            console.log(data);
         } catch (error) {
             console.error('Error fetching equipos:', error);
         }
