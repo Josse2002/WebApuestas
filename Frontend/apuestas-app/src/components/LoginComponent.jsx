@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Input from "./Input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ export function LoginComponent() {
         const userRole = localStorage.getItem("userRole");
 
         if (userId && userRole) {
-            router.push("/dashboard");
+            router.replace("/dashboard");
             toast.success("Tu inicio de sesión ha sido restaurado");
         }
     }, [router]);
@@ -25,15 +25,15 @@ export function LoginComponent() {
         clave: ""
     });
 
-    function getUsername(e) {
+    const getUsername = (e) => {
         setUser({ ...user, userName: e.target.value });
-    }
+    };
 
-    function getPassword(e) {
+    const getPassword = (e) => {
         setUser({ ...user, clave: e.target.value });
-    }
+    };
 
-    async function handleSubmit(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
@@ -42,14 +42,14 @@ export function LoginComponent() {
                 toast.success("Inicio de sesión exitoso");
                 localStorage.setItem("userId", response.user.idUsuario);
                 localStorage.setItem("userRole", response.user.idRol);
-                router.push("/dashboard");
+                router.replace("/dashboard");
             } else {
                 toast.error("Credenciales invalidas, por favor intente de nuevo");
             }
         } catch (error) {
-            toast.success("Error al iniciar sesión " + error);
+            toast.error("Error al iniciar sesión " + error);
         }
-    }
+    };
 
     return (
         <div className="flex flex-col justify-center items-center">
